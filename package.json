@@ -1,0 +1,38 @@
+{
+    "name": "hello-koa2",
+    "version": "1.0.0",
+    "description": "Hello Koa 2 example with async",
+    "main": "app.js",
+    "scripts": {
+        "start": "node app.js",
+        "prd": "pm2 start app.js --watch"
+    },
+    "keywords": [
+        "koa",
+        "async"
+    ],
+    "author": "Michael Liao",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/michaelliao/learn-javascript.git"
+    },
+    "dependencies": {
+        "joi": "^14.3.1",
+        "koa": "2.0.0",
+        "koa-bodyparser": "3.2.0",
+        "koa-logger": "^3.2.1",
+        "koa-mysql-session": "^0.0.2",
+        "koa-router": "7.0.0",
+        "koa-session": "^5.12.3",
+        "koa-session-minimal": "^3.0.4",
+        "koa-static": "^5.0.0",
+        "koa2-cors": "^2.0.6",
+        "koa2-mysql-session": "^0.1.0",
+        "mockjs": "^1.0.1-beta3",
+        "moment": "^2.24.0",
+        "mongoose": "^5.7.12",
+        "mysql": "^2.17.1",
+        "pm2": "^4.2.0"
+    }
+}
