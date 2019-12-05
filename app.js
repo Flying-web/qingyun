@@ -15,6 +15,8 @@ const reset = require('./utils')
 const initTable = require('./mysql/init');
 const {sessionbase} = require('./mysql/config')
 
+
+
 // 初始化数据表
 initTable()
 
