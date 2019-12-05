@@ -37,7 +37,7 @@ class Sheet {
             this.index = `${this.index}${key}=?,`
             this.value.push(args[key])
         }
-        this.value = this.value.substr(0, this.value.length - 1)
+        this.index = this.index.substr(0, this.index.length - 1)
         return query(`UPDATE ${this.sheet} SET ${this.index} WHERE ${index}=${value};`,this.value )
     }
 }

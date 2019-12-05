@@ -26,7 +26,7 @@ const handler = async (ctx, next) => {
     } catch (err) {
         console.log(err)
         ctx.response.status = err.statusCode || err.status || 500;
-        ctx.response.body = reset.error(500,err.message)
+        ctx.response.body = reset.error(err.message)
     }
 };
 

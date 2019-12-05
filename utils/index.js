@@ -39,13 +39,6 @@ let responseBeautifier = new class {
     success(data, message, regs) {
         const status = "ok"
         if (this.StatusCode.has(status)) {
-            console.log({
-                status,
-                data,
-                message: message || this.StatusCode.get(status),
-                currentAuthority: data.authority || 'guest',
-                ...regs
-            })
             return {
                 status,
                 data,

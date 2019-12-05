@@ -21,12 +21,12 @@ const fn_login_account = async (ctx, next) => {
     }
     let reqdata = result.value; //经过验证后的数据
     const rsq = await users.select('userName', `'${reqdata.userName}'`)
- 
+
     if (rsq.length > 0) {
         if (rsq[0].password === reqdata.password) {
-            const tags = JSON.parse(rsq[0].tags)
-            console.log(tags)
-            const account = {...rsq[0],tags}
+            const tags = rsq[0].tags !=="" ? JSON.parse(rsq[0].tags) : []
+            const geographic = rsq[0].geographic !== "" ? JSON.parse(rsq[0].geographic) : {}
+            const account = { ...rsq[0], tags, geographic }
             ctx.session.account = account
             ctx.body = reset.success(account)
         } else {
@@ -42,12 +42,12 @@ const fn_login_account = async (ctx, next) => {
 // 获取当前登录信息
 const fn_currentUser = async (ctx, next) => {
     let data = ctx.request.body
-    if(ctx.session.account && ctx.session.account.userid){
-        ctx.body = reset.success(ctx.session.account,)
+    if (ctx.session.account && ctx.session.account.userid) {
+        ctx.body = reset.success(ctx.session.account)
     } else {
         ctx.body = reset.error('未登录')
     }
-    
+
 };
 
 const fn_login_signup = async (ctx, next) => {
@@ -60,14 +60,14 @@ const fn_login_signup = async (ctx, next) => {
     })
     let result = Joi.validate(data, schema);
     if (result.error) {
-        return ctx.body = reset.error(result.error.details[0].message,result.error.details)
+        return ctx.body = reset.error(result.error.details[0].message, result.error.details)
     }
     let reqdata = result.value; //经过验证后的数据
     const rsq = await users.select('userName', `'${reqdata.userName}'`)
     if (rsq.length > 0) {
         return ctx.body = reset.error('此账号已注册')
     } else {
-        const create = moment().format('YYYY-MM-DD HH:mm:ss') 
+        const create = moment().format('YYYY-MM-DD HH:mm:ss')
         const rsq = await users.insert({
             name: reqdata.userName,
             userName: reqdata.userName,
