@@ -2,6 +2,7 @@ const Koa = require('koa')
 // 注意require('koa-router')返回的是函数:
 // const router = require('koa-router')();
 const bodyparser = require('koa-bodyparser')
+const koaBody = require('koa-body');
 const app = new Koa()
 const controllers = require('./controllers')
 const logger = require('koa-logger')
@@ -13,7 +14,8 @@ const MysqlStore = require('koa-mysql-session')
 const cors = require('koa2-cors')
 const reset = require('./utils')
 const initTable = require('./mysql/init');
-const {sessionbase} = require('./mysql/config')
+const { getUploadFileExt, getUploadDirName, checkDirExist, getUploadFileName } = require('./utils/upload');
+const { sessionbase } = require('./mysql/config')
 
 
 
@@ -63,9 +65,30 @@ app.keys = ['session'];
 //     rolling: false,  //在每次请求时强行设置cookie，这将重置cookie过期时间（默认：false）
 //     renew: false,  //(boolean) renew session when session is nearly expired,
 // };
-app.use(session({key: 'USER_SID',store: new MysqlStore(sessionbase)}));
+app.use(session({ key: 'USER_SID', store: new MysqlStore(sessionbase) }));
 
-app.use(bodyparser()); // 解析post 内容
+// app.use(bodyparser()); // 解析post 内容
+app.use(koaBody({
+    multipart: true, // 支持文件上传
+    encoding: 'utf-8',
+    formidable: {
+        uploadDir: path.join(__dirname, 'public/upload/'), // 设置文件上传目录
+        keepExtensions: true,    // 保持文件的后缀
+        maxFieldsSize: 2 * 1024 * 1024, // 文件上传大小
+        onFileBegin: (name, file) => { // 文件上传前的设置
+            // console.log(file);
+            // 获取文件后缀
+            const ext = getUploadFileExt(file.name);
+            // 最终要保存到的文件夹目录
+            const dir =  `public/upload/${getUploadDirName()}`;
+            // 检查文件夹是否存在如果不存在则新建文件夹
+            checkDirExist(path.join(__dirname, dir));
+            // 重新覆盖 file.path 属性
+            file.path = `${dir}/${getUploadFileName(ext)}`;
+
+        },
+    }
+}));
 // add router middleware:
 // 别忘了加
 app.use(controllers())

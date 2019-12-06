@@ -18,22 +18,13 @@ let responseBeautifier = new class {
             this.StatusCode.set(status, description);
         }
     }
-    set(data, message) {
-        const status = "ok"
-        if (this.StatusCode.has(status)) {
-            return {
-                status,
-                data,
-                message: message || this.StatusCode.get(status),
-                currentAuthority: data.currentAuthority || 'guest',
-            }
-        } else {
-            // log Something ,here is an unique status
-            return {
-                status,
-                data,
-                message: message || "Unresolvable Status Code :" + status,
-            }
+    set(status = 'ok',data, message, regs) {
+        return {
+            status,
+            data,
+            message: message || this.StatusCode.get(status),
+            currentAuthority: data.currentAuthority || 'guest',
+            ...regs
         }
     }
     success(data, message, regs) {
