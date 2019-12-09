@@ -1,5 +1,5 @@
 
-const {query} = require('./index')
+const { query } = require('./index')
 
 /**
  * @description: 创建用户表
@@ -48,6 +48,7 @@ let users =
 let posts =
     `create table if not exists posts(
      id INT NOT NULL AUTO_INCREMENT,
+     types VARCHAR(100) NOT NULL,
      name VARCHAR(100) NOT NULL,
      title TEXT(0) NOT NULL,
      content TEXT(0) NOT NULL,
@@ -56,7 +57,34 @@ let posts =
      moment VARCHAR(100) NOT NULL,
      comments VARCHAR(200) NOT NULL DEFAULT '0',
      pv VARCHAR(40) NOT NULL DEFAULT '0',
-     avator VARCHAR(100) NOT NULL,
+     avatar VARCHAR(100) NOT NULL,
+     poster VARCHAR(255) NOT NULL,
+     PRIMARY KEY ( id )
+    );`
+/**
+ * @description: 创建猫咪
+ * @param {type} id 主键
+ * @param {type} name 猫咪名字
+ * @param {type} title 标题
+ * @param {type} content 副标题
+ * @param {type} uid 关联用户
+ * @param {type} moment 时间
+ * @param {type} comments 评论数
+ * @param {type} pv 查看数
+ * @param {type} poster 封面图
+ * @return: null
+ */
+let cats =
+    `create table if not exists cats(
+     id INT NOT NULL AUTO_INCREMENT,
+     name VARCHAR(100) NOT NULL,
+     title TEXT(0) NOT NULL,
+     content TEXT(0) NOT NULL,
+     uid VARCHAR(40) NOT NULL,
+     moment VARCHAR(100) NOT NULL,
+     comments VARCHAR(200) NOT NULL DEFAULT '0',
+     pv VARCHAR(40) NOT NULL DEFAULT '0',
+     poster VARCHAR(255) NOT NULL,
      PRIMARY KEY ( id )
     );`
 
@@ -71,15 +99,15 @@ let comment =
      PRIMARY KEY ( id )
     );`
 
-let createTable = function( sql ) {
-  return query( sql.replace(/[\r\n]/g, ''), [] )
+let createTable = function (sql) {
+    return query(sql.replace(/[\r\n]/g, ''), [])
 }
 
-const initTable = ()=>{
-// 建表
-createTable(users)
-createTable(posts)
-createTable(comment)
+const initTable = () => {
+    // 建表
+    createTable(users)
+    createTable(posts)
+    createTable(comment)
 }
 
 module.exports = initTable

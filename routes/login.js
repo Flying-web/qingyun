@@ -72,7 +72,7 @@ const fn_login_signup = async (ctx, next) => {
             name: reqdata.userName,
             userName: reqdata.userName,
             password: reqdata.password,
-            avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+            avatar: 'http://localhost:3000/public/upload/2019126/15756304273771537.jpg',
             creatTime: create
         })
         ctx.body = reset.success(rsq)

@@ -4,17 +4,18 @@ const reset = require('../utils')
 
 // 用户列表
 const fn_upload = async (ctx, next) => {
-    console.log(ctx.request.files);
-    if(ctx.request.files) {
-        ctx.body = reset.set('done',ctx.request.files,'',{
-            ...ctx.request.files.file,
-            thumbUrl: ctx.request.files.path,
-            url: ctx.request.files.path,
-        })
+    if (ctx.request.files) {
+        ctx.body = reset.set('done',  {
+            lastModifiedDate: ctx.request.files.file.lastModifiedDate,
+            name: ctx.request.files.file.name,
+            size: ctx.request.files.file.size,
+            type: ctx.request.files.file.type,
+            path: 'http://localhost:3000/' + ctx.request.files.file.path,
+        }, '')
     } else {
         ctx.body = reset.error('上传出错')
     }
-   
+
 };
 
 

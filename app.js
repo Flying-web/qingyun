@@ -84,7 +84,7 @@ app.use(koaBody({
             // 检查文件夹是否存在如果不存在则新建文件夹
             checkDirExist(path.join(__dirname, dir));
             // 重新覆盖 file.path 属性
-            file.path = `/${dir}/${getUploadFileName(ext)}`;
+            file.path = `${dir}/${getUploadFileName(ext)}`;
 
         },
     }

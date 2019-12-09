@@ -7,7 +7,7 @@ const users = new Sheet('users')
 // 用户列表
 const fn_user_list = async (ctx, next) => {
     const data = await users.list()
-    ctx.body = reset.set(data)
+    ctx.body = reset.success(data)
 };
 // 注册
 const fn_user_add = async (ctx, next) => {
