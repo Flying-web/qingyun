@@ -24,7 +24,7 @@ const fn_login_account = async (ctx, next) => {
 
     if (rsq.length > 0) {
         if (rsq[0].password === reqdata.password) {
-            const tags = rsq[0].tags !=="" ? JSON.parse(rsq[0].tags) : []
+            const tags = rsq[0].tags !== "" ? JSON.parse(rsq[0].tags) : []
             const geographic = rsq[0].geographic !== "" ? JSON.parse(rsq[0].geographic) : {}
             const account = { ...rsq[0], tags, geographic }
             ctx.session.account = account
@@ -75,6 +75,11 @@ const fn_login_signup = async (ctx, next) => {
             avatar: 'http://localhost:3000/public/upload/2019126/15756304273771537.jpg',
             creatTime: create
         })
+        const [user] = await users.select('userName', `'${reqdata.userName}'`)
+        const tags = user.tags !== "" ? JSON.parse(user.tags) : []
+        const geographic = user.geographic !== "" ? JSON.parse(user.geographic) : {}
+        const account = { ...user, tags, geographic }
+        ctx.session.account = account
         ctx.body = reset.success(rsq)
 
     }

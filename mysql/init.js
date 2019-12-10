@@ -65,6 +65,7 @@ let posts =
  * @description: 创建猫咪
  * @param {type} id 主键
  * @param {type} name 猫咪名字
+ * @param {type} type 猫咪品种
  * @param {type} title 标题
  * @param {type} content 副标题
  * @param {type} uid 关联用户
@@ -80,7 +81,8 @@ let cats =
      name VARCHAR(100) NOT NULL,
      title TEXT(0) NOT NULL,
      content TEXT(0) NOT NULL,
-     uid VARCHAR(40) NOT NULL,
+     uid INT NOT NULL,
+     type VARCHAR(100) NOT NULL,
      moment VARCHAR(100) NOT NULL,
      comments VARCHAR(200) NOT NULL DEFAULT '0',
      pv VARCHAR(40) NOT NULL DEFAULT '0',
@@ -108,6 +110,7 @@ const initTable = () => {
     createTable(users)
     createTable(posts)
     createTable(comment)
+    createTable(cats)
 }
 
 module.exports = initTable

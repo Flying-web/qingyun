@@ -2,11 +2,21 @@ const reset = require('../utils')
 const Joi = require('joi')
 const Sheet = require('../models')
 const CATS = new Sheet('cats') // sql操作
+const USERS = new Sheet('users') // sql操作
 
 // 猫咪列表
 const fn_cats_list = async (ctx, next) => {
     const data = await CATS.list()
-    ctx.body = reset.success(data)
+    const users = await USERS.list()
+
+    const req = data.map(item=> {
+        const user = users.find((u)=>u.userid === item.uid)
+        return {
+            ...item,
+            avatar: user.avatar
+        }
+    })
+    ctx.body = reset.success(req)
 };
 
 // 猫咪名称
@@ -21,7 +31,8 @@ const fn_cats_add = async (ctx, next) => {
     let schema = Joi.object().keys({
         name: Joi.string().required(),
         title: Joi.string().required(),
-        types: Joi.string().required(),
+        content: Joi.string().required(),
+        type: Joi.string().required(),
         poster: Joi.string().required(),
     })
     let result = Joi.validate(data, schema);
@@ -31,8 +42,8 @@ const fn_cats_add = async (ctx, next) => {
     let reqdata = result.value; //经过验证后的数据
 
     const { userid } = ctx.session.account
-    const rsq = await CATS.create({ ...reqdata, uid: userid || -1, moment: new Date() })
-    ctx.body = reset.set(rsq)
+    const rsq = await CATS.insert({ ...reqdata, uid: userid || -1, moment: new Date() })
+    ctx.body = reset.success(rsq)
 };
 
 module.exports = {
