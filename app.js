@@ -8,6 +8,7 @@ const controllers = require('./controllers')
 const logger = require('koa-logger')
 const server = require('koa-static')
 const path = require('path')
+const onerror = require('koa-onerror')
 // const session = require('koa-session') for  cookie
 const session = require('koa-session-minimal') // for mysql
 const MysqlStore = require('koa-mysql-session')
@@ -18,6 +19,7 @@ const { getUploadFileExt, getUploadDirName, checkDirExist, getUploadFileName } =
 const { sessionbase } = require('./mysql/config')
 
 
+onerror(app)
 
 // 初始化数据表
 initTable()
@@ -80,7 +82,7 @@ app.use(koaBody({
             // 获取文件后缀
             const ext = getUploadFileExt(file.name);
             // 最终要保存到的文件夹目录
-            const dir =  `public/upload/${getUploadDirName()}`;
+            const dir = `public/upload/${getUploadDirName()}`;
             // 检查文件夹是否存在如果不存在则新建文件夹
             checkDirExist(path.join(__dirname, dir));
             // 重新覆盖 file.path 属性
@@ -93,5 +95,9 @@ app.use(koaBody({
 // 别忘了加
 app.use(controllers())
 
-app.listen(3000)
-console.log('ap start at port 3000')
+// error-handling
+app.on('error', (err, ctx) => {
+    console.error('server error', err, ctx)
+});
+
+module.exports = app
