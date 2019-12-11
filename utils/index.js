@@ -18,7 +18,7 @@ let responseBeautifier = new class {
             this.StatusCode.set(status, description);
         }
     }
-    set(status = 'ok',data, message, regs) {
+    set(status = 'ok', data, message, regs) {
         return {
             status,
             data,
@@ -29,43 +29,23 @@ let responseBeautifier = new class {
     }
     success(data, message, regs) {
         const status = "ok"
-        if (this.StatusCode.has(status)) {
-            return {
-                status,
-                data,
-                message: message || this.StatusCode.get(status),
-                currentAuthority: data.authority || 'guest',
-                ...regs
-            }
-        } else {
-            // log Something ,here is an unique status
-            return {
-                status,
-                data,
-                message: message || "Unresolvable Status Code :" + status,
-                ...regs
-            }
+        return {
+            status,
+            data,
+            message: message || this.StatusCode.get(status),
+            currentAuthority: data.authority || 'guest',
+            ...regs
         }
     }
-    error(message,regs) {
+    error(message, regs) {
         const status = "error"
-        if (this.StatusCode.has(status)) {
-            return {
-                status,
-                data: {},
-                message: message || this.StatusCode.get(status),
-                currentAuthority: 'guest',
-                type:"account",
-                ...regs
-            }
-        } else {
-            // log Something ,here is an unique status
-            return {
-                status,
-                data: {},
-                message: message || "Unresolvable Status Code :" + status,
-                ...regs
-            }
+        return {
+            status,
+            data: {},
+            message: message || this.StatusCode.get(status),
+            currentAuthority: 'guest',
+            type: "account",
+            ...regs
         }
     }
 }();

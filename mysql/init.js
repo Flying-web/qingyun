@@ -6,11 +6,12 @@ const { query } = require('./index')
  * @param {type} id 主键
  * @param {type} userName 用户名
  * @param {type} password 密码
+ * @param {type} usergroup 职位
+ * @param {type} signature 签名
  * @param {type} avator 头像
  * @param {type} email 邮箱
  * @param {type} signature 签名
  * @param {type} title 标题
- * @param {type} group 群组
  * @param {type} tags 标签
  * @param {type} notifyCount 通知
  * @param {type} unreadCount 未读
@@ -32,7 +33,7 @@ let users =
      email VARCHAR(100) DEFAULT NULL,
      signature VARCHAR(100) DEFAULT NULL,
      title VARCHAR(100) DEFAULT NULL,
-     usergroups VARCHAR(100) DEFAULT NULL,
+     usergroup VARCHAR(100) DEFAULT NULL,
      tags TEXT(0) DEFAULT NULL,
      notifyCount VARCHAR(40) NOT NULL DEFAULT '0',
      unreadCount VARCHAR(40) NOT NULL DEFAULT '0',

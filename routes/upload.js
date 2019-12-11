@@ -10,7 +10,7 @@ const fn_upload = async (ctx, next) => {
             name: ctx.request.files.file.name,
             size: ctx.request.files.file.size,
             type: ctx.request.files.file.type,
-            path: 'http://localhost:3000/' + ctx.request.files.file.path,
+            path: '/api/' + ctx.request.files.file.path,
         }, '')
     } else {
         ctx.body = reset.error('上传出错')
