@@ -9,14 +9,21 @@ moment.locale('zh-cn')
 
 const DEFAULTAVATAR = '/api/public/upload/2019126/default.jpg'
 
+<<<<<<< HEAD
 const getAvatar = () => {
     const i = 9
     const c = Math.round(Math.random() * 9)
+=======
+const getAvatar = ()=>{
+    const i = 9
+    const c = Math.round(Math.random()*9)
+>>>>>>> 80e1b2a5fa040e8292ca355163c3b1e8707a8542
     console.log(c)
     return `/api/public/upload/avatar/avatar${c}.jpeg`
 }
 
 const GUEST = {
+<<<<<<< HEAD
     avatar: DEFAULTAVATAR,
     authority: 'guest',
     userid: -1,
@@ -32,6 +39,23 @@ const GUEST = {
     notifyCount: 0,
     unreadCount: 0,
     email: null,
+=======
+    avatar:DEFAULTAVATAR,
+    authority:'guest',
+    userid:-1,
+    userName:'guest',
+    name:'游客',
+    creatTime:'',
+    geographic:null,
+    group:null,
+    country:null,
+    address:null,
+    phone:null,
+    title:'游客模式-体验完整功能请注册',
+    notifyCount:0,
+    unreadCount:0,
+    email:null,
+>>>>>>> 80e1b2a5fa040e8292ca355163c3b1e8707a8542
 }
 
 /**
@@ -58,7 +82,7 @@ const fn_login_account = async (ctx, next) => {
     if (rsq.length > 0) {
         const [user] = rsq
         if (user.password === reqdata.password) {
-            const account = { ...user, geographic: JSON.parse(user.geographic), tags: JSON.parse(user.tags) }
+            const account = {...user,geographic: JSON.parse(user.geographic),tags: JSON.parse(user.tags)}
             ctx.session.account = account
             ctx.body = reset.success(account)
         } else {
@@ -80,7 +104,11 @@ const fn_currentUser = async (ctx, next) => {
     if (ctx.session.account && ctx.session.account.userid && ctx.session.account.userid !== -1) {
         console
         const [user] = await USEERS.select('userid', `'${ctx.session.account.userid}'`)
+<<<<<<< HEAD
         const account = { ...user, geographic: JSON.parse(user.geographic), tags: JSON.parse(user.tags), group: user.usergroup }
+=======
+        const account = {...user,geographic: JSON.parse(user.geographic),tags: JSON.parse(user.tags),group:user.usergroup}
+>>>>>>> 80e1b2a5fa040e8292ca355163c3b1e8707a8542
         delete account['usergroup']
         ctx.session.account = account
         ctx.body = reset.success(account)
@@ -98,6 +126,7 @@ const fn_currentRouter = async (ctx, next) => {
             path: '/',
             redirect: '/welcome',
 
+<<<<<<< HEAD
         },
         {
             path: '/welcome',
@@ -116,6 +145,8 @@ const fn_currentRouter = async (ctx, next) => {
     ])
 }
 
+=======
+>>>>>>> 80e1b2a5fa040e8292ca355163c3b1e8707a8542
 /**
  * @description: 注册
  * @param {string} userName - 用户名
